@@ -1,25 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import {Select} from "./components/Select";
+import React, {useState} from "react";
+import {Animal} from "./components/Animal";
+import animals from "./data.json";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [animal, setAnimal] = useState(null);
+    const names = [];
+    const text_value = React.createRef()
+    animals.map((animal) => {names.push(animal.name)})
+
+    function getAnimal() {
+        if (text_value.current.value !== "") {
+            setAnimal(animals.filter(item => item.name === text_value.current.value));
+        }
+    }
+
+    return (
+        <>
+        <Select
+            options={names}
+            callback={getAnimal}
+            ref={text_value}
+        />
+        <Animal
+        animal={animal}
+        />
+        </>
+    )
 }
 
 export default App;
